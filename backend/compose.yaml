@@ -1,0 +1,31 @@
+services:
+  postgres:
+    image: "pgvector/pgvector:pg16"
+    container_name: fashion_postgres
+    ports:
+      - "5432:5432"
+    environment:
+      - "POSTGRES_DB=fashion_db"
+      - "POSTGRES_PASSWORD=password"
+      - "POSTGRES_USER=postgres"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: "redis:alpine"
+    container_name: fashion_redis
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  postgres_data:

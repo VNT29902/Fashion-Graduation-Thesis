@@ -1,0 +1,78 @@
+﻿
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v3.4.1)
+
+2026-01-28T05:12:42.241+07:00  INFO 11236 --- [fashion-backend] [           main] [                                                 ] c.s.f.FashionBackendApplication          : Starting FashionBackendApplication v0.0.1-SNAPSHOT using Java 21.0.9 with PID 11236 (D:\CodeFile\Fashion-Graduation-Thesis\backend\target\fashion-backend-0.0.1-SNAPSHOT.jar started by DELL in D:\CodeFile\Fashion-Graduation-Thesis\backend)
+2026-01-28T05:12:42.273+07:00  INFO 11236 --- [fashion-backend] [           main] [                                                 ] c.s.f.FashionBackendApplication          : No active profile set, falling back to 1 default profile: "default"
+2026-01-28T05:12:43.063+07:00  WARN 11236 --- [fashion-backend] [           main] [                                                 ] ConfigServletWebServerApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: java.lang.IllegalArgumentException: Could not find class [org.springframework.boot.thread.Threading]
+2026-01-28T05:12:43.235+07:00  INFO 11236 --- [fashion-backend] [           main] [                                                 ] .s.b.a.l.ConditionEvaluationReportLogger : 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2026-01-28T05:12:43.294+07:00 ERROR 11236 --- [fashion-backend] [           main] [                                                 ] o.s.boot.SpringApplication               : Application run failed
+
+java.lang.IllegalArgumentException: Could not find class [org.springframework.boot.thread.Threading]
+	at org.springframework.util.ClassUtils.resolveClassName(ClassUtils.java:372) ~[spring-core-6.2.1.jar!/:6.2.1]
+	at org.springframework.core.type.classreading.MergedAnnotationReadingVisitor.visitEnum(MergedAnnotationReadingVisitor.java:106) ~[spring-core-6.2.1.jar!/:6.2.1]
+	at org.springframework.core.type.classreading.MergedAnnotationReadingVisitor.visitEnum(MergedAnnotationReadingVisitor.java:80) ~[spring-core-6.2.1.jar!/:6.2.1]
+	at org.springframework.asm.ClassReader.readElementValue(ClassReader.java:3094) ~[spring-core-6.2.1.jar!/:6.2.1]
+	at org.springframework.asm.ClassReader.readElementValues(ClassReader.java:3013) ~[spring-core-6.2.1.jar!/:6.2.1]
+	at org.springframework.asm.ClassReader.readMethod(ClassReader.java:1416) ~[spring-core-6.2.1.jar!/:6.2.1]
+	at org.springframework.asm.ClassReader.accept(ClassReader.java:747) ~[spring-core-6.2.1.jar!/:6.2.1]
+	at org.springframework.asm.ClassReader.accept(ClassReader.java:427) ~[spring-core-6.2.1.jar!/:6.2.1]
+	at org.springframework.core.type.classreading.SimpleMetadataReader.<init>(SimpleMetadataReader.java:48) ~[spring-core-6.2.1.jar!/:6.2.1]
+	at org.springframework.core.type.classreading.SimpleMetadataReaderFactory.getMetadataReader(SimpleMetadataReaderFactory.java:103) ~[spring-core-6.2.1.jar!/:6.2.1]
+	at org.springframework.boot.type.classreading.ConcurrentReferenceCachingMetadataReaderFactory.createMetadataReader(ConcurrentReferenceCachingMetadataReaderFactory.java:98) ~[spring-boot-3.4.1.jar!/:3.4.1]
+	at org.springframework.boot.type.classreading.ConcurrentReferenceCachingMetadataReaderFactory.getMetadataReader(ConcurrentReferenceCachingMetadataReaderFactory.java:85) ~[spring-boot-3.4.1.jar!/:3.4.1]
+	at org.springframework.core.type.classreading.SimpleMetadataReaderFactory.getMetadataReader(SimpleMetadataReaderFactory.java:81) ~[spring-core-6.2.1.jar!/:6.2.1]
+	at org.springframework.boot.type.classreading.ConcurrentReferenceCachingMetadataReaderFactory.getMetadataReader(ConcurrentReferenceCachingMetadataReaderFactory.java:75) ~[spring-boot-3.4.1.jar!/:3.4.1]
+	at org.springframework.boot.autoconfigure.AutoConfigurationSorter$AutoConfigurationClass.getAnnotationMetadata(AutoConfigurationSorter.java:260) ~[spring-boot-autoconfigure-3.4.1.jar!/:3.4.1]
+	at org.springframework.boot.autoconfigure.AutoConfigurationSorter$AutoConfigurationClass.getOrder(AutoConfigurationSorter.java:235) ~[spring-boot-autoconfigure-3.4.1.jar!/:3.4.1]
+	at org.springframework.boot.autoconfigure.AutoConfigurationSorter.lambda$getInPriorityOrder$0(AutoConfigurationSorter.java:72) ~[spring-boot-autoconfigure-3.4.1.jar!/:3.4.1]
+	at java.base/java.util.TimSort.binarySort(TimSort.java:296) ~[na:na]
+	at java.base/java.util.TimSort.sort(TimSort.java:239) ~[na:na]
+	at java.base/java.util.Arrays.sort(Arrays.java:1308) ~[na:na]
+	at java.base/java.util.ArrayList.sort(ArrayList.java:1804) ~[na:na]
+	at org.springframework.boot.autoconfigure.AutoConfigurationSorter.getInPriorityOrder(AutoConfigurationSorter.java:71) ~[spring-boot-autoconfigure-3.4.1.jar!/:3.4.1]
+	at org.springframework.boot.autoconfigure.AutoConfigurationImportSelector$AutoConfigurationGroup.sortAutoConfigurations(AutoConfigurationImportSelector.java:505) ~[spring-boot-autoconfigure-3.4.1.jar!/:3.4.1]
+	at org.springframework.boot.autoconfigure.AutoConfigurationImportSelector$AutoConfigurationGroup.selectImports(AutoConfigurationImportSelector.java:489) ~[spring-boot-autoconfigure-3.4.1.jar!/:3.4.1]
+	at org.springframework.context.annotation.ConfigurationClassParser$DeferredImportSelectorGrouping.getImports(ConfigurationClassParser.java:906) ~[spring-context-6.2.1.jar!/:6.2.1]
+	at org.springframework.context.annotation.ConfigurationClassParser$DeferredImportSelectorGroupingHandler.processGroupImports(ConfigurationClassParser.java:833) ~[spring-context-6.2.1.jar!/:6.2.1]
+	at org.springframework.context.annotation.ConfigurationClassParser$DeferredImportSelectorHandler.process(ConfigurationClassParser.java:803) ~[spring-context-6.2.1.jar!/:6.2.1]
+	at org.springframework.context.annotation.ConfigurationClassParser.parse(ConfigurationClassParser.java:189) ~[spring-context-6.2.1.jar!/:6.2.1]
+	at org.springframework.context.annotation.ConfigurationClassPostProcessor.processConfigBeanDefinitions(ConfigurationClassPostProcessor.java:418) ~[spring-context-6.2.1.jar!/:6.2.1]
+	at org.springframework.context.annotation.ConfigurationClassPostProcessor.postProcessBeanDefinitionRegistry(ConfigurationClassPostProcessor.java:290) ~[spring-context-6.2.1.jar!/:6.2.1]
+	at org.springframework.context.support.PostProcessorRegistrationDelegate.invokeBeanDefinitionRegistryPostProcessors(PostProcessorRegistrationDelegate.java:349) ~[spring-context-6.2.1.jar!/:6.2.1]
+	at org.springframework.context.support.PostProcessorRegistrationDelegate.invokeBeanFactoryPostProcessors(PostProcessorRegistrationDelegate.java:118) ~[spring-context-6.2.1.jar!/:6.2.1]
+	at org.springframework.context.support.AbstractApplicationContext.invokeBeanFactoryPostProcessors(AbstractApplicationContext.java:791) ~[spring-context-6.2.1.jar!/:6.2.1]
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:609) ~[spring-context-6.2.1.jar!/:6.2.1]
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:146) ~[spring-boot-3.4.1.jar!/:3.4.1]
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:752) ~[spring-boot-3.4.1.jar!/:3.4.1]
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:439) ~[spring-boot-3.4.1.jar!/:3.4.1]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:318) ~[spring-boot-3.4.1.jar!/:3.4.1]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1361) ~[spring-boot-3.4.1.jar!/:3.4.1]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1350) ~[spring-boot-3.4.1.jar!/:3.4.1]
+	at com.skaly.fashion_backend.FashionBackendApplication.main(FashionBackendApplication.java:10) ~[!/:0.0.1-SNAPSHOT]
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580) ~[na:na]
+	at org.springframework.boot.loader.launch.Launcher.launch(Launcher.java:102) ~[fashion-backend-0.0.1-SNAPSHOT.jar:0.0.1-SNAPSHOT]
+	at org.springframework.boot.loader.launch.Launcher.launch(Launcher.java:64) ~[fashion-backend-0.0.1-SNAPSHOT.jar:0.0.1-SNAPSHOT]
+	at org.springframework.boot.loader.launch.JarLauncher.main(JarLauncher.java:40) ~[fashion-backend-0.0.1-SNAPSHOT.jar:0.0.1-SNAPSHOT]
+Caused by: java.lang.ClassNotFoundException: org.springframework.boot.thread.Threading
+	at java.base/java.net.URLClassLoader.findClass(URLClassLoader.java:445) ~[na:na]
+	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:593) ~[na:na]
+	at org.springframework.boot.loader.net.protocol.jar.JarUrlClassLoader.loadClass(JarUrlClassLoader.java:107) ~[fashion-backend-0.0.1-SNAPSHOT.jar:0.0.1-SNAPSHOT]
+	at org.springframework.boot.loader.launch.LaunchedClassLoader.loadClass(LaunchedClassLoader.java:91) ~[fashion-backend-0.0.1-SNAPSHOT.jar:0.0.1-SNAPSHOT]
+	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:526) ~[na:na]
+	at java.base/java.lang.Class.forName0(Native Method) ~[na:na]
+	at java.base/java.lang.Class.forName(Class.java:536) ~[na:na]
+	at java.base/java.lang.Class.forName(Class.java:515) ~[na:na]
+	at org.springframework.util.ClassUtils.forName(ClassUtils.java:321) ~[spring-core-6.2.1.jar!/:6.2.1]
+	at org.springframework.util.ClassUtils.resolveClassName(ClassUtils.java:362) ~[spring-core-6.2.1.jar!/:6.2.1]
+	... 45 common frames omitted
+
