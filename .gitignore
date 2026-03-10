@@ -1,0 +1,27 @@
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# IDEs
+.idea/
+.vscode/
+*.swp
+*.iml
+
+# Logs
+*.log
+
+# Temp files
+tmp/
+.temp/
+
+# MCP artifacts
+.agents/
+.gemini/
+
+# Subdirectories have their own .gitignore files

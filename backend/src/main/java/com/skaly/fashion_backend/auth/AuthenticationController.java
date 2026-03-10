@@ -26,4 +26,10 @@ public class AuthenticationController {
             @RequestBody AuthenticationRequest request) {
         return ResponseEntity.ok(ApiResponse.success(service.authenticate(request)));
     }
+
+    @org.springframework.web.bind.annotation.GetMapping("/me")
+    public ResponseEntity<ApiResponse<com.skaly.fashion_backend.user.User>> getCurrentUser(
+            @org.springframework.security.core.annotation.AuthenticationPrincipal com.skaly.fashion_backend.user.User user) {
+        return ResponseEntity.ok(ApiResponse.success(user));
+    }
 }

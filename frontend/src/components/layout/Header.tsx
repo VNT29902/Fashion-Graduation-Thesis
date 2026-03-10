@@ -1,16 +1,17 @@
 "use client";
 
 import Link from "next/link";
-import { Search, ShoppingBag, User, Menu } from "lucide-react";
+import { ShoppingBag, User, Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import {
     Sheet,
     SheetContent,
     SheetTrigger,
     SheetTitle,
+    SheetDescription,
 } from "@/components/ui/sheet";
 import { useState } from "react";
+import { SemanticSearchDialog } from "@/components/ui/SemanticSearchDialog";
 
 export function Header() {
     const [isOpen, setIsOpen] = useState(false);
@@ -36,6 +37,7 @@ export function Header() {
                         </SheetTrigger>
                         <SheetContent side="left" className="w-[300px] sm:w-[400px]">
                             <SheetTitle className="text-left font-bold text-lg mb-6 tracking-widest">MENU</SheetTitle>
+                            <SheetDescription className="sr-only">Mobile Navigation Menu</SheetDescription>
                             <nav className="flex flex-col gap-4">
                                 {navLinks.map((link) => (
                                     <Link
@@ -71,13 +73,8 @@ export function Header() {
 
                 {/* Actions */}
                 <div className="flex items-center gap-2 md:gap-4">
-                    <div className="hidden md:flex relative w-full max-w-sm items-center">
-                        <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-                        <Input
-                            type="search"
-                            placeholder="SEARCH..."
-                            className="w-[200px] lg:w-[300px] pl-8 h-9 bg-secondary/30 border-none uppercase text-xs tracking-wider placeholder:text-muted-foreground/50 focus-visible:ring-1"
-                        />
+                    <div className="hidden md:flex relative w-full items-center">
+                        <SemanticSearchDialog />
                     </div>
 
                     <div className="flex items-center gap-1 md:gap-2">

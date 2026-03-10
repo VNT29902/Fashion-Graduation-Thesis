@@ -30,7 +30,7 @@ public class OrderService {
                 User user = userRepository.findByEmail(userEmail)
                                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
-                CartDto cart = cartService.getCart(userEmail);
+                CartDto cart = cartService.getCart(userEmail, null);
 
                 if (cart.items().isEmpty()) {
                         throw new IllegalStateException("Cart is empty");
@@ -70,7 +70,7 @@ public class OrderService {
                 Order savedOrder = orderRepository.save(order);
 
                 // Clear cart
-                cartService.clearCart(userEmail);
+                cartService.clearCart(userEmail, null);
 
                 return mapToDto(savedOrder);
         }

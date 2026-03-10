@@ -5,7 +5,11 @@ import java.util.List;
 import java.util.UUID;
 
 public record CartDto(
-        UUID id,
-        List<CartItemDto> items,
-        BigDecimal totalAmount) {
+                UUID id,
+                String guestId,
+                List<CartItemDto> items,
+                String couponCode,
+                BigDecimal discountAmount,
+                BigDecimal subTotal,
+                BigDecimal finalTotal) {
 }

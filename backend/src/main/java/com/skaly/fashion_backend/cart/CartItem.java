@@ -4,6 +4,7 @@ import com.skaly.fashion_backend.product.ProductVariant;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -30,8 +31,15 @@ public class CartItem {
     @Column(nullable = false)
     private Integer quantity;
 
+    @Column(name = "snapshot_price", nullable = false)
+    private BigDecimal snapshotPrice;
+
     @Column(name = "added_at")
     private LocalDateTime addedAt;
+
+    @Transient
+    @Builder.Default
+    private boolean quantityAdjusted = false;
 
     @PrePersist
     protected void onCreate() {

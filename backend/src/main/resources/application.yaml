@@ -4,14 +4,27 @@ spring:
   docker:
     compose:
       enabled: false
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: ${GOOGLE_CLIENT_ID:not-set}
+            client-secret: ${GOOGLE_CLIENT_SECRET:not-set}
+            scope:
+              - email
+              - profile
   datasource:
     url: jdbc:postgresql://127.0.0.1:5432/fashion_db?options=-c%20timezone=UTC
     username: postgres
     password: password
     driver-class-name: org.postgresql.Driver
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: validate
     show-sql: true
     properties:
       hibernate:
@@ -21,6 +34,22 @@ spring:
     redis:
       host: localhost
       port: 6379
+  ai:
+    google:
+      genai:
+        api-key: ${GEMINI_API_KEY:dummy-api-key}
+        chat:
+          options:
+            model: gemini-2.5-pro
+        embedding:
+          options:
+            model: text-embedding-004
+    vectorstore:
+      pgvector:
+        index-type: HNSW
+        distance-type: COSINE_DISTANCE
+        dimensions: 768
+
 server:
   port: 8080
 
@@ -29,12 +58,3 @@ application:
     jwt:
       secret-key: NoPEkExKyE9nWtQ+edD8KTTTAc1KZOcQoI7kOI/Gj7Gs= # 256-bit Base64 secret
       expiration: 86400000 # 1 day
-
-  ai:
-    openai:
-      api-key: ${OPENAI_KEY}
-    vectorstore:
-      pgvector:
-        index-type: HNSW
-        distance-type: COSINE_DISTANCE
-        dimensions: 1536

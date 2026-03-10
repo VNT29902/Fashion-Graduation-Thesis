@@ -37,4 +37,12 @@ public class ProductController {
         ProductResponse response = productService.getProductById(id);
         return ResponseEntity.ok(ApiResponse.success(response));
     }
+
+    @GetMapping("/search/semantic")
+    public ResponseEntity<ApiResponse<java.util.List<ProductResponse>>> searchSemantic(
+            @RequestParam("q") String query,
+            @RequestParam(value = "limit", defaultValue = "5") int limit) {
+        java.util.List<ProductResponse> products = productService.searchProductsSemantically(query, limit);
+        return ResponseEntity.ok(ApiResponse.success(products));
+    }
 }

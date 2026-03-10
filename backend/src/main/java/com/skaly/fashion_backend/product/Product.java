@@ -42,6 +42,29 @@ public class Product {
 
     private LocalDateTime updatedAt;
 
+    @org.hibernate.annotations.ColumnTransformer(read = "embedding_vector::text", write = "?::vector")
+    @Column(name = "embedding_vector", columnDefinition = "vector(1536)")
+    private String embeddingVectorStr;
+
+    public void setEmbeddingVector(float[] vector) {
+        if (vector == null) {
+            this.embeddingVectorStr = null;
+            return;
+        }
+        this.embeddingVectorStr = java.util.Arrays.toString(vector);
+    }
+
+    public float[] getEmbeddingVector() {
+        if (embeddingVectorStr == null)
+            return null;
+        String[] parts = embeddingVectorStr.replace("[", "").replace("]", "").split(",");
+        float[] res = new float[parts.length];
+        for (int i = 0; i < parts.length; i++) {
+            res[i] = Float.parseFloat(parts[i].trim());
+        }
+        return res;
+    }
+
     @PrePersist
     protected void onCreate() {
         createdAt = LocalDateTime.now();

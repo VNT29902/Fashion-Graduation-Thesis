@@ -1,0 +1,92 @@
+{
+  "version": "1.0",
+  "servers": [
+    {
+      "name": "filesystem",
+      "type": "filesystem-mcp",
+      "config": {
+        "root": "D:/CodeFile/Fashion-Graduation-Thesis",
+        "watch": true
+      }
+    },
+
+    {
+      "name": "git",
+      "type": "git-mcp",
+      "config": {
+        "root": "D:/CodeFile/Fashion-Graduation-Thesis"
+      }
+    },
+
+    {
+      "name": "postgres",
+      "type": "postgres-mcp",
+      "config": {
+        "host": "localhost",
+        "port": 5432,
+        "database": "fashion_ai",
+        "user": "postgres",
+        "password": "postgres",
+        "ssl": false
+      }
+    },
+
+    {
+      "name": "docker",
+      "type": "docker-mcp",
+      "config": {
+        "socket": "npipe://./pipe/docker_engine"
+      }
+    },
+
+    {
+      "name": "http",
+      "type": "http-mcp",
+      "config": {
+        "defaultHeaders": {
+          "Content-Type": "application/json"
+        },
+        "timeoutMs": 10000
+      }
+    },
+
+    {
+      "name": "node",
+      "type": "node-mcp",
+      "config": {
+        "workingDirectory": "D:/CodeFile/Fashion-Graduation-Thesis/frontend"
+      }
+    },
+
+    {
+      "name": "browser",
+      "type": "browser-mcp",
+      "config": {
+        "baseUrl": "http://localhost:3000",
+        "headless": false
+      }
+    },
+
+    {
+      "name": "vector",
+      "type": "pgvector-mcp",
+      "config": {
+        "host": "localhost",
+        "port": 5432,
+        "database": "fashion_ai",
+        "table": "product_embeddings",
+        "dimension": 1536
+      }
+    },
+
+    {
+      "name": "logs",
+      "type": "logs-mcp",
+      "config": {
+        "paths": [
+          "D:/CodeFile/Fashion-Graduation-Thesis/backend/logs"
+        ]
+      }
+    }
+  ]
+}

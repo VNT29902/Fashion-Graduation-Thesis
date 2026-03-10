@@ -5,15 +5,12 @@ import { Product } from "@/components/product/ProductCard";
 interface ProductResponse {
     id: string;
     name: string;
-    price: number;
+    basePrice: number;
     description: string;
-    category: {
-        id: string;
-        name: string;
-        slug: string;
-    };
-    images?: string[];
+    categoryName: string;
     variants?: any[];
+    createdAt?: string;
+    updatedAt?: string;
 }
 
 interface ApiResponse<T> {
@@ -40,10 +37,9 @@ export const useProducts = () => {
             return apiResponse.data.content.map((item) => ({
                 id: item.id,
                 name: item.name,
-                price: item.price,
-                category: item.category?.name || "Uncategorized",
-                image: "bg-slate-200", // Default placeholder for now as backend might not return images yet
-                // Logic to interpret 'isNew' or 'isSale' can be added here if backend provides 'createdAt' or 'salePrice'
+                price: item.basePrice || 0,
+                category: item.categoryName || "Uncategorized",
+                image: "bg-slate-200", // Default placeholder for now
             }));
         },
     });
