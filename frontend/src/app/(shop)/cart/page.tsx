@@ -3,13 +3,13 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { Loader2, Minus, Plus, ShoppingBag, Trash2 } from "lucide-react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
 import api from "@/lib/axios";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Separator } from "@/components/ui/separator";
+import { ApiResponse } from "@/types/auth";
 
 // Types matching Backend DTOs
 type CartItem = {
@@ -31,12 +31,11 @@ type Cart = {
 
 // API Functions
 const fetchCart = async (): Promise<Cart> => {
-  const { data } = await api.get("/cart");
-  return data;
+  const { data } = await api.get<ApiResponse<Cart>>("/cart");
+  return data.data;
 };
 
 export default function CartPage() {
-  const router = useRouter();
   const queryClient = useQueryClient();
 
   // Queries
@@ -49,7 +48,7 @@ export default function CartPage() {
   // Mutations
   const updateMutation = useMutation({
     mutationFn: async ({ itemId, quantity }: { itemId: string; quantity: number }) => {
-      await api.put("/cart/update", { cartItemId: itemId, quantity });
+      await api.put<ApiResponse<Cart>>("/cart/update", { cartItemId: itemId, quantity });
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["cart"] });
@@ -61,7 +60,7 @@ export default function CartPage() {
 
   const removeMutation = useMutation({
     mutationFn: async (itemId: string) => {
-      await api.delete(`/cart/remove/${itemId}`);
+      await api.delete<ApiResponse<Cart>>(`/cart/remove/${itemId}`);
     },
     onSuccess: () => {
         toast.success("Item removed");
@@ -100,7 +99,7 @@ export default function CartPage() {
         </div>
         <h1 className="text-3xl font-bold">Your bag is empty</h1>
         <p className="text-muted-foreground max-w-md">
-          Looks like you haven't added anything to your bag yet. Start browsing our collection to find something you love.
+          Looks like you have not added anything to your bag yet. Start browsing our collection to find something you love.
         </p>
         <Button asChild size="lg" className="mt-4">
           <Link href="/shop">Start Shopping</Link>

@@ -3,6 +3,7 @@
 import * as React from "react";
 import { 
   ColumnDef, 
+  ColumnFiltersState,
   flexRender, 
   getCoreRowModel, 
   getPaginationRowModel, 
@@ -31,6 +32,7 @@ import { MoreHorizontal, RotateCw } from "lucide-react";
 import api from "@/lib/axios";
 import { CreateProductDialog } from "@/components/admin/CreateProductDialog";
 import { Skeleton } from "@/components/ui/skeleton";
+import { ApiResponse } from "@/types/auth";
 
 // Product Type matching Backend Response
 export type Product = {
@@ -43,17 +45,21 @@ export type Product = {
 };
 
 // Fetch Function
+type Page<T> = {
+  content: T[];
+};
+
 const fetchProducts = async (): Promise<Product[]> => {
-  const { data } = await api.get("/products");
-  return data;
+  const { data } = await api.get<ApiResponse<Page<Product>>>("/products");
+  return data.data.content;
 };
 
 export const columns: ColumnDef<Product>[] = [
   {
     accessorKey: "image",
     header: "Image",
-    cell: ({ row }) => {
-        // Placeholder for now as backend doesn't return image yet
+    cell: () => {
+      // Placeholder for now as backend doesn't return image yet
       return <div className="h-10 w-10 rounded-md bg-muted border" />;
     },
   },
@@ -107,7 +113,7 @@ export const columns: ColumnDef<Product>[] = [
 ];
 
 export default function ProductsPage() {
-  const [columnFilters, setColumnFilters] = React.useState<any>([]);
+  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
 
   // React Query
   const { data, isLoading, isError, refetch } = useQuery({

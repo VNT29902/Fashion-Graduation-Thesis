@@ -7,7 +7,9 @@ import * as z from "zod";
 import { Loader2, Plus } from "lucide-react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
+import type { AxiosError } from "axios";
 import api from "@/lib/axios";
+import { ApiResponse } from "@/types/auth";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -64,8 +66,8 @@ export function CreateProductDialog() {
         basePrice: parseFloat(values.price),
         categoryId: parseInt(values.categoryId), // Backend might expect Long/Int
       };
-      const response = await api.post("/products", payload);
-      return response.data;
+      const response = await api.post<ApiResponse<{ id: string }>>("/products", payload);
+      return response.data.data;
     },
     onSuccess: () => {
       toast.success("Product created successfully");
@@ -73,9 +75,10 @@ export function CreateProductDialog() {
       setOpen(false);
       form.reset();
     },
-    onError: (error: any) => {
+    onError: (error: unknown) => {
+        const axiosError = error as AxiosError<{ message?: string }>;
         console.error("Create product error:", error);
-        toast.error(error.response?.data?.message || "Failed to create product");
+        toast.error(axiosError.response?.data?.message || "Failed to create product");
     }
   });
 
@@ -94,7 +97,7 @@ export function CreateProductDialog() {
         <DialogHeader>
           <DialogTitle>Add New Product</DialogTitle>
           <DialogDescription>
-            Create a new product for your catalog. Click save when you're done.
+            Create a new product for your catalog. Click save when you are done.
           </DialogDescription>
         </DialogHeader>
         <Form {...form}>
