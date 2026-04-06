@@ -21,6 +21,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
 import api from "@/lib/axios";
+import { ApiResponse, AuthenticationResponse } from "@/types/auth";
 
 // Validation Schema
 const formSchema = z.object({
@@ -55,12 +56,15 @@ export default function RegisterPage() {
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setIsLoading(true);
     try {
-      const response = await api.post("/auth/register", values);
-      
-      const { access_token } = response.data;
+      const response = await api.post<ApiResponse<AuthenticationResponse>>("/auth/register", values);
+      const accessToken = response.data.data?.accessToken;
+
+      if (!accessToken) {
+        throw new Error("Missing access token from register response");
+      }
       
       // Store token and login immediately
-      Cookies.set("token", access_token, { expires: 1 });
+      Cookies.set("token", accessToken, { expires: 1 });
       
       toast.success("Account created successfully!", {
         duration: 2000,

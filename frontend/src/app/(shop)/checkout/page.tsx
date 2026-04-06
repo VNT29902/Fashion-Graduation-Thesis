@@ -8,7 +8,9 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Loader2, ArrowLeft, ShieldCheck } from "lucide-react";
 import Link from "next/link";
 import { toast } from "sonner";
+import type { AxiosError } from "axios";
 import api from "@/lib/axios";
+import { ApiResponse } from "@/types/auth";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -32,6 +34,7 @@ const checkoutSchema = z.object({
 });
 
 type CheckoutFormValues = z.infer<typeof checkoutSchema>;
+type PlaceOrderResponse = { id: string };
 
 export default function CheckoutPage() {
   const router = useRouter();
@@ -58,18 +61,19 @@ export default function CheckoutPage() {
         const payload = {
             shippingAddress: `${values.fullName}, ${values.phone}, ${values.address} ${values.note ? `(Note: ${values.note})` : ''}`
         };
-        const response = await api.post("/orders/place", payload);
-        return response.data;
+        const response = await api.post<ApiResponse<PlaceOrderResponse>>("/orders/place", payload);
+        return response.data.data;
     },
-    onSuccess: (data) => {
+    onSuccess: () => {
         toast.success("Order placed successfully!");
         queryClient.invalidateQueries({ queryKey: ["cart"] }); // Cart is now empty
         // Redirect to success page or order history
         router.push("/checkout/success"); 
     },
-    onError: (error: any) => {
+    onError: (error: unknown) => {
+        const axiosError = error as AxiosError<{ message?: string }>;
         console.error("Order failed:", error);
-        toast.error(error.response?.data?.message || "Failed to place order. Please try again.");
+        toast.error(axiosError.response?.data?.message || "Failed to place order. Please try again.");
     }
   });
 

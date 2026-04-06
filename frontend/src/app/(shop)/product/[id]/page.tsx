@@ -1,11 +1,11 @@
 "use client";
 
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo } from "react";
 import { useParams } from "next/navigation";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { Loader2, Minus, Plus, ShoppingBag, Truck, ShieldCheck, Heart } from "lucide-react";
 import { toast } from "sonner";
-import Image from "next/image";
+import type { AxiosError } from "axios";
 
 import api from "@/lib/axios";
 import { Button } from "@/components/ui/button";
@@ -13,6 +13,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
+import { ApiResponse } from "@/types/auth";
 
 // Types
 type Variant = {
@@ -34,8 +35,8 @@ type Product = {
 }
 
 const fetchProduct = async (id: string): Promise<Product> => {
-    const { data } = await api.get(`/products/${id}`);
-    return data;
+    const { data } = await api.get<ApiResponse<Product>>(`/products/${id}`);
+    return data.data;
 }
 
 export default function ProductDetailPage() {
@@ -62,19 +63,14 @@ export default function ProductDetailPage() {
         return { uniqueColors: colors, uniqueSizes: sizes };
     }, [product]);
 
+    const effectiveSelectedColor = selectedColor ?? uniqueColors[0] ?? null;
+    const effectiveSelectedSize = selectedSize ?? uniqueSizes[0] ?? null;
+
     // Find Selected Variant
     const selectedVariant = useMemo(() => {
-        if (!product?.variants || !selectedColor || !selectedSize) return null;
-        return product.variants.find(v => v.color === selectedColor && v.size === selectedSize);
-    }, [product, selectedColor, selectedSize]);
-
-    // Set defaults on load
-    useEffect(() => {
-        if (product?.variants && product.variants.length > 0) {
-            if (!selectedColor && uniqueColors.length > 0) setSelectedColor(uniqueColors[0]);
-            if (!selectedSize && uniqueSizes.length > 0) setSelectedSize(uniqueSizes[0]);
-        }
-    }, [product, uniqueColors, uniqueSizes]);
+        if (!product?.variants || !effectiveSelectedColor || !effectiveSelectedSize) return null;
+        return product.variants.find(v => v.color === effectiveSelectedColor && v.size === effectiveSelectedSize);
+    }, [product, effectiveSelectedColor, effectiveSelectedSize]);
 
 
     // Add to Cart Mutation
@@ -89,12 +85,13 @@ export default function ProductDetailPage() {
         },
         onSuccess: () => {
             toast.success("Added to cart", {
-                description: `${quantity} x ${product?.name} (${selectedSize}, ${selectedColor})`
+                description: `${quantity} x ${product?.name} (${effectiveSelectedSize}, ${effectiveSelectedColor})`
             });
             queryClient.invalidateQueries({ queryKey: ["cart"] });
         },
-        onError: (error: any) => {
-             toast.error(error.response?.data?.message || "Failed to add to cart");
+        onError: (error: unknown) => {
+             const axiosError = error as AxiosError<{ message?: string }>;
+             toast.error(axiosError.response?.data?.message || "Failed to add to cart");
         }
     });
 
@@ -153,7 +150,7 @@ export default function ProductDetailPage() {
                         {/* Color */}
                         {uniqueColors.length > 0 && (
                             <div className="space-y-3">
-                                <span className="text-sm font-medium">Color: <span className="text-muted-foreground">{selectedColor}</span></span>
+                                    <span className="text-sm font-medium">Color: <span className="text-muted-foreground">{effectiveSelectedColor}</span></span>
                                 <div className="flex flex-wrap gap-3">
                                     {uniqueColors.map((color) => (
                                         <button
@@ -161,7 +158,7 @@ export default function ProductDetailPage() {
                                             onClick={() => setSelectedColor(color)}
                                             className={cn(
                                                 "h-10 px-4 rounded-md border text-sm font-medium transition-all",
-                                                selectedColor === color 
+                                                effectiveSelectedColor === color 
                                                 ? "border-primary bg-primary/5 ring-1 ring-primary" 
                                                 : "border-input hover:border-primary/50"
                                             )}
@@ -177,7 +174,7 @@ export default function ProductDetailPage() {
                         {uniqueSizes.length > 0 && (
                             <div className="space-y-3">
                                 <div className="flex justify-between">
-                                    <span className="text-sm font-medium">Size: <span className="text-muted-foreground">{selectedSize}</span></span>
+                                    <span className="text-sm font-medium">Size: <span className="text-muted-foreground">{effectiveSelectedSize}</span></span>
                                     <button className="text-xs underline text-muted-foreground hover:text-primary">Size Guide</button>
                                 </div>
                                 <div className="flex flex-wrap gap-3">
@@ -187,7 +184,7 @@ export default function ProductDetailPage() {
                                             onClick={() => setSelectedSize(size)}
                                             className={cn(
                                                 "h-10 w-12 rounded-md border text-sm font-medium transition-all flex items-center justify-center",
-                                                selectedSize === size
+                                                effectiveSelectedSize === size
                                                 ? "border-primary bg-black text-white" 
                                                 : "border-input hover:border-black"
                                             )}

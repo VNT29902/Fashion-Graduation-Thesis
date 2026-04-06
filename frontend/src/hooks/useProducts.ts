@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import api from "@/lib/axios";
 import { Product } from "@/components/product/ProductCard";
+import { ApiResponse } from "@/types/auth";
 
 interface ProductResponse {
     id: string;
@@ -8,15 +9,9 @@ interface ProductResponse {
     basePrice: number;
     description: string;
     categoryName: string;
-    variants?: any[];
+    variants?: unknown[];
     createdAt?: string;
     updatedAt?: string;
-}
-
-interface ApiResponse<T> {
-    status: number;
-    message: string;
-    data: T;
 }
 
 interface Page<T> {

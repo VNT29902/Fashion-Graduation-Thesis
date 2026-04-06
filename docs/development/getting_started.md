@@ -47,3 +47,26 @@ Nếu bạn không muốn dùng Docker, bạn phải cài PostgreSQL thủ công
     - Mở **pgAdmin** (cài cùng PostgreSQL).
     - Chuột phải `Databases` -> Create -> Database...
     - Đặt tên là `fashion_db`.
+
+---
+
+## 3. Cấu hình Environment Variables (Bắt buộc từ phiên bản hiện tại)
+
+Backend đã tách profile theo môi trường: `dev`, `staging`, `prod`.
+
+- **Mặc định:** `SPRING_PROFILES_ACTIVE=dev`
+- **Profile production/staging:** bắt buộc cấp `DB_URL`, `DB_USERNAME`, `DB_PASSWORD` từ môi trường deploy.
+
+Các biến tối thiểu cần có khi chạy backend:
+
+```bash
+export JWT_SECRET_KEY="<base64-encoded-256-bit-secret>"
+export CORS_ALLOWED_ORIGINS="http://localhost:3000"
+```
+
+Ví dụ chạy local:
+
+```bash
+cd backend
+SPRING_PROFILES_ACTIVE=dev ./mvnw spring-boot:run
+```

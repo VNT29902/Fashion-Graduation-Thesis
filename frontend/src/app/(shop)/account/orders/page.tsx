@@ -2,7 +2,7 @@
 
 import { useQuery } from "@tanstack/react-query";
 import { format } from "date-fns";
-import { Package, Smartphone, MapPin, Clock } from "lucide-react";
+import { Package, MapPin, Clock } from "lucide-react";
 
 import api from "@/lib/axios";
 import { Badge } from "@/components/ui/badge";
@@ -24,6 +24,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Separator } from "@/components/ui/separator";
+import { ApiResponse } from "@/types/auth";
 
 // Types matching OrderDto
 type OrderItem = {
@@ -46,8 +47,8 @@ type Order = {
 }
 
 const fetchOrders = async (): Promise<Order[]> => {
-    const { data } = await api.get("/orders");
-    return data;
+    const { data } = await api.get<ApiResponse<Order[]>>("/orders");
+    return data.data;
 }
 
 export default function OrderHistoryPage() {
@@ -76,7 +77,7 @@ export default function OrderHistoryPage() {
                     <Package className="h-8 w-8 text-muted-foreground" />
                 </div>
                 <h1 className="text-2xl font-bold">No orders yet</h1>
-                <p className="text-muted-foreground">You haven't placed any orders yet.</p>
+                <p className="text-muted-foreground">You have not placed any orders yet.</p>
                 <Button asChild className="mt-4">
                     <a href="/shop">Start Shopping</a>
                 </Button>
